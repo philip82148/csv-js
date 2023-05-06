@@ -1,5 +1,5 @@
 export async function csvFileToArray(csvFile) {
-  const content = await new Promise((resolve) => {
+  const csvString = await new Promise((resolve) => {
     const reader = new FileReader();
     reader.onload = () => {
       resolve(reader.result);
@@ -7,7 +7,12 @@ export async function csvFileToArray(csvFile) {
     reader.readAsText(csvFile);
   });
 
-  return csvStringToArray(content);
+  return csvStringToArray(csvString);
+}
+
+export async function csvUrlToArray(csvUrl) {
+  const csvString = await fetch(csvUrl).then((response) => response.text());
+  return csvStringToArray(csvString);
 }
 
 export function csvStringToArray(csvString) {
