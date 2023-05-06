@@ -1,4 +1,4 @@
-async function csvToArray(file) {
+export async function csvToArray(file) {
   const content = await new Promise((resolve) => {
     const reader = new FileReader();
     reader.onload = () => {
