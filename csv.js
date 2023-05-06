@@ -1,16 +1,16 @@
-export async function csvToArray(file) {
+export async function csvFileToArray(csvFile) {
   const content = await new Promise((resolve) => {
     const reader = new FileReader();
     reader.onload = () => {
       resolve(reader.result);
     };
-    reader.readAsText(file);
+    reader.readAsText(csvFile);
   });
 
   return csvStringToArray(content);
 }
 
-function csvStringToArray(csvString) {
+export function csvStringToArray(csvString) {
   return [...getRowStrings(csvString)].map((rowString) => [
     ...getCells(rowString),
   ]);
