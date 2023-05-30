@@ -16,12 +16,12 @@ export async function csvUrlToArray(csvUrl) {
 }
 
 export function csvStringToArray(csvString) {
-  return [...getRowStrings(csvString)].map((rowString) => [
-    ...getCells(rowString),
+  return [...getCsvRowStrings(csvString)].map((csvRowString) => [
+    ...getCellStrings(csvRowString),
   ]);
 }
 
-function* getRowStrings(csvString) {
+function* getCsvRowStrings(csvString) {
   const lines = csvString.split(/\r?\n/);
 
   let row = [];
@@ -40,7 +40,7 @@ function* getRowStrings(csvString) {
   }
 }
 
-function* getCells(csvRowString) {
+function* getCellStrings(csvRowString) {
   const cells = csvRowString.split(/,/);
 
   let cell = [];
@@ -51,13 +51,13 @@ function* getCells(csvRowString) {
 
     if (quotCount % 2) continue;
 
-    const cellString = cell.join(",");
-    yield cellString.replace(/^"|""|"$/g, function (match) {
+    const cellString = cell.join(",").replace(/^"|""|"$/g, function (match) {
       return {
         '"': "",
         '""': '"',
       }[match];
     });
+    yield cellString;
 
     cell = [];
     quotCount = 0;
